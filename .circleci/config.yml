@@ -18,7 +18,7 @@ jobs:
           path: test-results
   deploy-prod:
     docker:
-    - image: circleci/node:latest
+      - image: circleci/node:latest
     steps:
       - checkout
       - run:
@@ -38,9 +38,9 @@ workflows:
           filters:
             branches:
               ignore:
-                - master
+                - develop
       - deploy-prod:
           filters:
             branches:
               only:
-                - master
+                - develop
