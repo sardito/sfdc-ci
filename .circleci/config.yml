@@ -38,9 +38,9 @@ workflows:
           filters:
             branches:
               ignore:
-                - develop
+                - master
       - deploy-prod:
           filters:
             branches:
               only:
-                - develop
+                - master
