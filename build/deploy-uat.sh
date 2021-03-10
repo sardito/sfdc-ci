@@ -1,0 +1,1 @@
+sfdx force:source:deploy -u ${CIRCLE_BRANCH} -l RunAllTestsInOrg

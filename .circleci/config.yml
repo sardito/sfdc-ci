@@ -41,9 +41,9 @@ jobs:
       - run:
           name: Login to UAT
           command: . build/connection-uat.sh
-      # - run:
-      #     name: Deploy to Production
-      #     command: . build/deploy-uat.sh
+      - run:
+          name: Deploy to UAT
+          command: . build/deploy-uat.sh
   deploy-prod:
     docker:
       - image: circleci/node:latest
