@@ -1,6 +1,36 @@
 version: 2
 jobs:
-  build:
+  # build:
+  #   docker:
+  #     - image: circleci/node:latest
+  #   steps:
+  #     - checkout
+  #     - run:
+  #         name: Install Dependencies
+  #         command: . build/install.sh
+  #     - run:
+  #         name: Create Scratch Org
+  #         command: . build/create-scratch-org.sh
+  #     - run:
+  #         name: Validate Components & Run Tests
+  #         command: . build/test.sh
+  #     - store_test_results:
+  #         path: test-results
+  # validate-uat:
+  #   docker:
+  #     - image: circleci/node:latest
+  #   steps:
+  #     - checkout
+  #     - run:
+  #         name: Install Dependencies
+  #         command: . build/install.sh
+  #     - run:
+  #         name: Login to Production
+  #         command: . build/connection-prod.sh
+  #     - run:
+  #         name: Deploy to Production
+  #         command: . build/validate-prod.sh
+  deploy-uat:
     docker:
       - image: circleci/node:latest
     steps:
@@ -9,13 +39,11 @@ jobs:
           name: Install Dependencies
           command: . build/install.sh
       - run:
-          name: Create Scratch Org
-          command: . build/create-scratch-org.sh
-      - run:
-          name: Validate Components & Run Tests
-          command: . build/test.sh
-      - store_test_results:
-          path: test-results
+          name: Login to UAT
+          command: . build/connection-uat.sh
+      # - run:
+      #     name: Deploy to Production
+      #     command: . build/deploy-uat.sh
   deploy-prod:
     docker:
       - image: circleci/node:latest
@@ -26,7 +54,7 @@ jobs:
           command: . build/install.sh
       - run:
           name: Login to Production
-          command: . build/setup-prod.sh
+          command: . build/connection-prod.sh
       - run:
           name: Deploy to Production
           command: . build/deploy-prod.sh
@@ -34,11 +62,17 @@ workflows:
   version: 2
   validate:
     jobs:
-      - build:
+      # - validate-uat:
+      #     filters:
+      #       branches:
+      #         ignore:
+      #           - develop
+      #           - master
+      - deploy-uat:
           filters:
             branches:
-              ignore:
-                - master
+              only:
+                - develop
       - deploy-prod:
           filters:
             branches:
