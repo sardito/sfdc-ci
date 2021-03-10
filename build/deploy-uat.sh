@@ -1,1 +1,1 @@
-sfdx force:source:deploy -u UAT -l RunAllTestsInOrg
+sfdx force:source:deploy -x manifest/package.xml -u UAT -l RunAllTestsInOrg
